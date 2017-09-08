@@ -12,6 +12,7 @@ var DocService = require( './service' ),
 	Card = require( 'components/card' ),
 	Main = require( 'components/main' ),
 	SearchCard = require( 'components/search-card' );
+import DocumentHead from 'components/data/document-head';
 
 /**
  * Constants
@@ -164,6 +165,8 @@ module.exports = React.createClass( {
 	render: function() {
 		return (
 			<Main className="devdocs">
+				<DocumentHead title="Calypso Docs" />
+
 				<SearchCard
 					autoFocus
 					placeholder="Search documentation…"

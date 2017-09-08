@@ -9,6 +9,7 @@ var React = require( 'react' );
 var DocService = require( './service' ),
 	CompactCard = require( 'components/card/compact' ),
 	highlight = require( 'lib/highlight' );
+import DocumentHead from 'components/data/document-head';
 
 module.exports = React.createClass( {
 	displayName: 'SingleDocument',
@@ -88,9 +89,17 @@ module.exports = React.createClass( {
 
 		var editURL = encodeURI( 'https://github.com/Automattic/wp-calypso/edit/master/' + this.props.path ) +
 			'?message=Documentation: <title>&description=What did you change and why&target_branch=update/docs-your-title';
+		const titleMatches = this.state.body.length && this.state.body.match( /<h1[^>]+>(.+)<\/h1>/ );
+		const title = titleMatches && titleMatches[ 1 ];
 
 		return (
 			<div className="devdocs devdocs__doc">
+				{
+					title
+						? <DocumentHead title={ title } />
+						: null
+
+				}
 				<CompactCard className="devdocs__doc-header">
 					Path: <code>{ this.props.path }</code>
 					<a href={ editURL } target="_blank" rel="noopener noreferrer">Improve this document on GitHub &rarr;</a>

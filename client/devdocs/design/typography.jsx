@@ -8,6 +8,7 @@ import PureRenderMixin from 'react-pure-render/mixin';
  * Internal dependencies
  */
 import Card from 'components/card';
+import DocumentHead from 'components/data/document-head';
 import Main from 'components/main';
 
 export default React.createClass( {
@@ -70,6 +71,8 @@ export default React.createClass( {
 
 		return (
 			<Main className="design">
+				<DocumentHead title="Typography" />
+
 				<div className="docs__design-group">
 					<h2>
 						<a href="/devdocs/design/typography">Typography</a>
