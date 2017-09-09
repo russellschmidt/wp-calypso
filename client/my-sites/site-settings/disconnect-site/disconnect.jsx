@@ -10,8 +10,9 @@ import { localize } from 'i18n-calypso';
  * Internal dependencies
  */
 import Card from 'components/card';
+import DisconnectFollowUp from './disconnect-follow-up';
 import { getSelectedSite, getSelectedSiteSlug } from 'state/ui/selectors';
-import { isFreeJetpackPlan } from 'lib/products-values';
+import { isBusiness, isFreeJetpackPlan, isPremium } from 'lib/products-values';
 import SelectDropdown from 'components/select-dropdown';
 
 class Disconnect extends Component {
@@ -21,11 +22,14 @@ class Disconnect extends Component {
 		renderFull: false,
 	};
 
-	renderFull() {
+	renderFull( option ) {
 		// placeholder
 		return (
 			<div>
-				{ ' follow-up QA' }
+				<DisconnectFollowUp
+					optionSelected={ option }
+					compactButtons={ this.state.compactButtons }
+				/>
 			</div>
 		);
 	}
@@ -39,13 +43,20 @@ class Disconnect extends Component {
 
 	getOptions() {
 		const { site } = this.props;
+		let options = [];
 
-		const options = [
-			{ value: 'tooHard', label: 'It was too hard to configure Jetpack' },
-			{ value: 'didNotInclude', label: 'This plan didn’t include what I needed' },
-		];
-
-		if ( ! isFreeJetpackPlan( site.plan ) ) {
+		if ( isFreeJetpackPlan( site.plan ) ) {
+			options = [
+				{ value: 'tooHard', label: 'I experienced problems setting up Jetpack' },
+				{ value: 'didNotInclude', label: 'I could not find what I needed' },
+			];
+		} else {
+			options = [
+				{ value: 'tooHard', label: 'It was too hard to configure Jetpack' },
+				{ value: 'didNotInclude', label: 'This plan didn’t include what I needed' },
+			];
+		}
+		if ( isPremium( site.plan ) || isBusiness( site.plan ) ) {
 			options.push( { value: 'onlyNeedFree', label: 'This plan is too expensive' } );
 		}
 		return options;
